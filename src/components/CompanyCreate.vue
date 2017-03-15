@@ -8,7 +8,7 @@
         <small>请确保填写正确公司信息</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>主页</a></li>
+        <li><a href="/home"><i class="fa fa-dashboard"></i>主页</a></li>
         <li class="active">公司信息录入</li>
       </ol>
     </section>
@@ -18,19 +18,17 @@
     <section class="content animated fadeInUp">
       <el-form
         label-position="left"
-        :model="company" :rules="rules"
-        ref="company" label-width="120px"
+        :model="company"
+        :rules="rules"
+        ref="company"
+        label-width="120px"
         class="demo-company">
         <el-form-item label="公司Logo" prop="companyLogo">
-          <el-upload
-            class="avatar-uploader"
-            action="//jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleAvatarScucess"
-            :before-upload="beforeAvatarUpload">
+          <div class="logo">
+            <input type="file" id="profilePhotoFileUpload" @change="changeLogo">
             <img v-if="company.companyLogo" :src="company.companyLogo" class="avatar">
             <i v-else class="el-icon-plus"></i>
-          </el-upload>
+          </div>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName">
           <el-col :span="10">
@@ -73,7 +71,7 @@
                 v-for="item in companyTypeList"
                 :key="item.objectId"
                 :label="item.type"
-                :value="item.type">
+                :value="item.objectId">
               </el-option>
             </el-select>
           </el-col>
@@ -85,7 +83,7 @@
                 v-for="item in companyScaleList"
                 :key="item.objectId"
                 :label="item.scale"
-                :value="item.scale">
+                :value="item.objectId">
               </el-option>
             </el-select>
           </el-col>
@@ -121,8 +119,19 @@
   </div>
 </template>
 <style>
-  .avatar-uploader {
+  .logo {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+  }
+
+  #profilePhotoFileUpload {
+    background: none;
     font-size: 20px;
+    opacity: 0;
     color: #8c939d;
     width: 100px;
     height: 100px;
@@ -130,20 +139,31 @@
     text-align: center;
   }
 
-  .el-upload {
-    width: 100%;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  .el-icon-plus {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    text-align: center;
+    align-content: center;
   }
 
-  .el-upload__input {
-    display: none !important;
-  }
+  /*.el-upload {*/
+  /*width: 100%;*/
+  /*border: 1px dashed #d9d9d9;*/
+  /*border-radius: 6px;*/
+  /*cursor: pointer;*/
+  /*position: relative;*/
+  /*overflow: hidden;*/
+  /*}*/
+
+  /*.el-upload__input {*/
+  /*display: none !important;*/
+  /*}*/
 
   .avatar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width: 100px;
     height: 100px;
     display: block;
@@ -247,16 +267,57 @@
       this.loadCompanyIndustry();
     },
     methods: {
+      changeLogo(){
+        let fileUpload = $('#profilePhotoFileUpload')[0];
+        let file = fileUpload.files[0];
+        let src = window.URL.createObjectURL(file);
+        this.company.companyLogo = src;
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
+          console.log(this.company.companyName);
+          let fileUpload = $('#profilePhotoFileUpload')[0];
+          console.log(fileUpload.files.length);
+          if (fileUpload.files.length > 0) {
+            let file = fileUpload.files[0];
+            var src = window.URL.createObjectURL(file);
+            this.company.companyLogo = src;
+            console.log(src);
+            var name = "logo_test.jpg";
+            var file = new Bmob.File(name, file);
+//            file.save();
+          }
           if (valid) {
-            alert('submit!');
+            let Company = Bmob.Object.extend("Company");
+            let company = new Company();
+            let com = this.company;
+            company.set("companyName", com.companyName);
+            company.set("companyType", Bmob.Object.createWithoutData('CompanyType', com.companyType));
+            company.set("companyScale", Bmob.Object.createWithoutData('CompanyScale', com.companyScale));
+            company.save(null, {
+              success: (company) => {
+                // 添加成功，返回成功之后的objectId（注意：返回的属性名字是id，不是objectId），
+                // 你还可以在Bmob的Web管理后台看到对应的数据
+                this.$message({
+                  message: '公司录入成功！',
+                  type: 'success'
+                });
+                alert('添加数据成功，返回的objectId是：' + company.id);
+              },
+              error: (company, error) => {
+                // 添加失败
+                this.$message.error('公司信息添加出错，错误原因：' + error.message);
+                return false;
+              }
+            });
           } else {
-            console.log('error submit!!');
+            this.$message({
+              message: '警告，请修改错误地方！',
+              type: 'warning'
+            });
             return false;
           }
         });
-        console.log(this.companyTypeList);
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
