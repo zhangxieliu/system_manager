@@ -209,7 +209,7 @@
           <li class="header">分类菜单</li>
           <!-- Optionally, you can add icons to the links -->
           <li class="active">
-            <a href="/company/list">
+            <a href="/job/list">
               <i class="fa fa-home"></i>
               <span>职位列表</span>
             </a>
@@ -233,8 +233,9 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="/company/create">公司信息录入</a></li>
-              <li><a href="#">公司职位发布</a></li>
+              <li><router-link :to="{ name: 'CompanyCreate'}">公司信息录入</router-link></li>
+              <li><router-link :to="{ name: 'CompanyList'}">公司信息查看</router-link></li>
+              <li><router-link :to="{ name: 'JobAdd'}">公司职位信息发布</router-link></li>
             </ul>
           </li>
         </ul>

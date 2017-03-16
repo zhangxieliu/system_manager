@@ -24,11 +24,13 @@
         label-width="120px"
         class="demo-company">
         <el-form-item label="公司Logo" prop="companyLogo">
-          <div class="logo">
-            <input type="file" id="profilePhotoFileUpload" @change="changeLogo">
-            <img v-if="company.companyLogo" :src="company.companyLogo" class="avatar">
-            <i v-else class="el-icon-plus"></i>
+          <div class="logo-pic" v-if="company.companyLogo">
+            <img :src="company.companyLogo" class="avatar" width="80px" height="80px">
           </div>
+          <a href="javascript:;" class="upload">
+            <span>上传<i class="el-icon-upload el-icon--right"></i></span>
+            <input type="file" accept="image/png,image/gif" id="fileUpload" @change="changeLogo">
+          </a>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName">
           <el-col :span="10">
@@ -36,8 +38,8 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司地址" prop="companyCity">
-          <el-select v-model="company.companyCity" placeholder="所在城市">
-            <el-col :span="10">
+          <el-col :span="6">
+            <el-select v-model="company.companyCity" placeholder="所在城市">
               <el-option-group
                 v-for="group in cityList"
                 :key="group.label"
@@ -49,15 +51,14 @@
                   :value="item.value">
                 </el-option>
               </el-option-group>
-            </el-col>
-          </el-select>
+            </el-select>
+          </el-col>
         </el-form-item>
         <el-form-item label="公司成立时间" prop="companyCreateDate" required>
-          <el-col :span="10">
-            <el-date-picker type="date" placeholder="选择日期" v-model="company.companyCreateDate"
-                            style="width: 100%;">
-            </el-date-picker>
-          </el-col>
+          <el-date-picker type="date"
+                          placeholder="选择日期"
+                          v-model="company.companyCreateDate">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="公司网址" prop="companyWebsite">
           <el-col :span="10">
@@ -89,7 +90,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司行业" prop="companyIndustry">
-          <el-col :span="20">
+          <el-col :span="10">
             <el-checkbox-group v-model="company.companyIndustry">
               <el-checkbox
                 v-for="item in companyIndustryList"
@@ -119,54 +120,41 @@
   </div>
 </template>
 <style>
-  .logo {
-    display: inline-block;
+  .logo-pic {
     width: 100px;
     height: 100px;
+  }
+
+  .upload {
+    cursor: pointer;
     position: relative;
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
+    display: inline-block;
+    background: #20A0FF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 5px 12px;
+    overflow: hidden;
+    color: white;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 25px;
   }
 
-  #profilePhotoFileUpload {
-    background: none;
-    font-size: 20px;
+  .upload:hover {
+    cursor: pointer;
+    background: #58B7FF;
+    color: white;
+    border-color: #78C3F3;
+    text-decoration: none;
+  }
+
+  .upload input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
     opacity: 0;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-  }
-
-  .el-icon-plus {
-    position: absolute;
-    top: 40%;
-    left: 40%;
-    text-align: center;
-    align-content: center;
-  }
-
-  /*.el-upload {*/
-  /*width: 100%;*/
-  /*border: 1px dashed #d9d9d9;*/
-  /*border-radius: 6px;*/
-  /*cursor: pointer;*/
-  /*position: relative;*/
-  /*overflow: hidden;*/
-  /*}*/
-
-  /*.el-upload__input {*/
-  /*display: none !important;*/
-  /*}*/
-
-  .avatar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100px;
-    height: 100px;
-    display: block;
   }
 
   /*解决默认是margin-left，导致左边不对齐*/
@@ -176,6 +164,7 @@
   }
 </style>
 <script>
+  import ImageUtils from '../utils/ImageUtils'
   export default{
     data(){
       var validateIndustry = (rule, value, callback) => {
@@ -192,25 +181,25 @@
         cityList: [{
           label: '热门城市',
           options: [{
-            value: 'Shanghai',
+            value: '上海',
             label: '上海'
           }, {
-            value: 'Beijing',
+            value: '北京',
             label: '北京'
           }]
         }, {
           label: '城市名',
           options: [{
-            value: 'Chengdu',
+            value: '成都',
             label: '成都'
           }, {
-            value: 'Shenzhen',
+            value: '深圳',
             label: '深圳'
           }, {
-            value: 'Guangzhou',
+            value: '广州',
             label: '广州'
           }, {
-            value: 'Dalian',
+            value: '大连',
             label: '大连'
           }]
         }],
@@ -267,33 +256,56 @@
       this.loadCompanyIndustry();
     },
     methods: {
-      changeLogo(){
-        let fileUpload = $('#profilePhotoFileUpload')[0];
+      changeLogo() {
+        var reader;
+        if (window.FileReader) {
+          reader = new FileReader();
+        } else {
+          this.$message.error('您的设备不支持图片预览功能，如需该功能请升级您的设备！');
+        }
+        let fileUpload = $('#fileUpload')[0];
         let file = fileUpload.files[0];
-        let src = window.URL.createObjectURL(file);
-        this.company.companyLogo = src;
+        if (window.URL) {
+          //File API
+          let src = window.URL.createObjectURL(file);
+          this.company.companyLogo = src;
+          $('img').load(() => window.URL.revokeObjectURL(src))
+        } else if (window.FileReader) {
+          //opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = function (e) {
+            this.company.companyLogo = this.result;
+          }
+        } else {
+          // ie
+          fileUpload.files.select();
+          fileUpload.files.blur();
+          var src = document.selection.createRange().text;
+          document.selection.empty();
+          this.company.companyLogo = src;
+        }
       },
       submitForm(formName) {
+        console.log(this.company.companyIndustry);
         this.$refs[formName].validate((valid) => {
-          console.log(this.company.companyName);
-          let fileUpload = $('#profilePhotoFileUpload')[0];
-          console.log(fileUpload.files.length);
-          if (fileUpload.files.length > 0) {
-            let file = fileUpload.files[0];
-            var src = window.URL.createObjectURL(file);
-            this.company.companyLogo = src;
-            console.log(src);
-            var name = "logo_test.jpg";
-            var file = new Bmob.File(name, file);
-//            file.save();
-          }
           if (valid) {
             let Company = Bmob.Object.extend("Company");
             let company = new Company();
             let com = this.company;
+            let fileUpload = $('#fileUpload')[0];
+            if (fileUpload.files.length > 0) {
+              let file = fileUpload.files[0];
+              company.set("companyLogo", new Bmob.File(file.name, file));
+            }
             company.set("companyName", com.companyName);
+            company.set("companyCity", com.companyCity);
+            company.set("companyCreateDate", com.companyCreateDate);
+            company.set("companyWebsite", com.companyWebsite);
             company.set("companyType", Bmob.Object.createWithoutData('CompanyType', com.companyType));
             company.set("companyScale", Bmob.Object.createWithoutData('CompanyScale', com.companyScale));
+            company.set("companyIndustry", com.companyIndustry);
+            company.set("companyIntroduce", com.companyIntroduce);
             company.save(null, {
               success: (company) => {
                 // 添加成功，返回成功之后的objectId（注意：返回的属性名字是id，不是objectId），
@@ -302,7 +314,6 @@
                   message: '公司录入成功！',
                   type: 'success'
                 });
-                alert('添加数据成功，返回的objectId是：' + company.id);
               },
               error: (company, error) => {
                 // 添加失败
@@ -327,16 +338,16 @@
         console.log(file);
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+        const isPic = file.type === 'image/jpeg' || file.type === 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+        if (!isPic) {
+          this.$message.error('上传头像图片只能是JPG/PNG格式!');
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
         }
-        return isJPG && isLt2M;
+        return isPic && isLt2M;
       },
       loadCompanyType() {
         let self = this;

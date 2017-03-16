@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Home from '@/components/Home'
-import CompanyList from '@/components/CompanyList'
+import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
+import CompanyList from '@/components/company/CompanyList'
+import JobAdd from '@/components/company/JobAdd'
 
 Vue.use(Router)
 
@@ -16,21 +17,31 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: '/company/list',
-          name: 'CompanyList',
-          component: CompanyList
+          path: '/job/list',
+          name: 'JobList',
+          component: JobList
         },
         {
           path: '/company/create',
           name: 'CompanyCreate',
           component: CompanyCreate
+        },
+        {
+          path: '/company/list',
+          name: 'CompanyList',
+          component: CompanyList
+        },
+        {
+          path: '/company/job/add',
+          name: 'JobAdd',
+          component: JobAdd
         }
       ]
     },
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Home',
+      component: Home
     }
   ]
 })
