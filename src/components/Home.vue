@@ -209,10 +209,10 @@
           <li class="header">分类菜单</li>
           <!-- Optionally, you can add icons to the links -->
           <li class="active">
-            <a href="/job/list">
+            <router-link :to="{ name: 'JobList'}">
               <i class="fa fa-home"></i>
               <span>职位列表</span>
-            </a>
+            </router-link>
           </li>
           <li><a href="#"><i class="fa fa-calendar"></i> <span>公司列表</span></a></li>
           <li class="treeview">
@@ -233,9 +233,24 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><router-link :to="{ name: 'CompanyCreate'}">公司信息录入</router-link></li>
-              <li><router-link :to="{ name: 'CompanyList'}">公司信息查看</router-link></li>
-              <li><router-link :to="{ name: 'JobAdd'}">公司职位信息发布</router-link></li>
+              <li>
+                <router-link :to="{ name: 'CompanyCreate'}">
+                  <i class="fa fa-plus"></i>
+                  公司信息录入
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'CompanyList'}">
+                  <i class="fa fa-info-circle"></i>
+                  公司信息查看
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'JobAdd'}">
+                  <i class="fa fa-list-alt"></i>
+                  公司职位信息发布
+                </router-link>
+              </li>
             </ul>
           </li>
         </ul>
@@ -246,7 +261,9 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <router-view></router-view>
+      <transition name="slide-right">
+        <router-view></router-view>
+      </transition>
     </div>
     <!-- /.content-wrapper -->
 

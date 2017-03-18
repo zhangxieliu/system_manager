@@ -5,6 +5,7 @@ import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
 import CompanyList from '@/components/company/CompanyList'
 import JobAdd from '@/components/company/JobAdd'
+import CompanyInfo from '@/components/company/CompanyInfo'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           component: CompanyCreate
         },
         {
+          path: '/company/create/:objectId',
+          name: 'CompanyInfo',
+          component: CompanyInfo
+        },
+        {
           path: '/company/list',
           name: 'CompanyList',
           component: CompanyList
@@ -37,11 +43,6 @@ export default new Router({
           component: JobAdd
         }
       ]
-    },
-    {
-      path: '/',
-      name: 'Home',
-      component: Home
     }
   ]
 })

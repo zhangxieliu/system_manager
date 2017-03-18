@@ -90,7 +90,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司行业" prop="companyIndustry">
-          <el-col :span="10">
+          <el-col :span="14">
             <el-checkbox-group v-model="company.companyIndustry">
               <el-checkbox
                 v-for="item in companyIndustryList"
@@ -250,7 +250,7 @@
         }
       };
     },
-    mounted: function () {
+    created () {
       this.loadCompanyType();
       this.loadCompanyScale();
       this.loadCompanyIndustry();
