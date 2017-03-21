@@ -261,9 +261,9 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <transition name="slide-right">
+      <!--<transition name="slide-right">-->
         <router-view></router-view>
-      </transition>
+      <!--</transition>-->
     </div>
     <!-- /.content-wrapper -->
 

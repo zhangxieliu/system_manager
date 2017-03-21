@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Login from '@/components/Login'
 import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
 import CompanyList from '@/components/company/CompanyList'
@@ -13,7 +14,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: Home,
       children: [
@@ -43,6 +44,11 @@ export default new Router({
           component: JobAdd
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
@@ -17,6 +18,7 @@ Bmob.initialize("53cd5abd1c22bcf54c7f7042ecd26731", "ca71b913159d8c0c8a1ca138773
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
