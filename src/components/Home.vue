@@ -246,7 +246,7 @@
                 </router-link>
               </li>
               <li>
-                <router-link :to="{ name: 'JobAdd'}">
+                <router-link :to="{ name: 'JobCreate'}">
                   <i class="fa fa-list-alt"></i>
                   公司职位信息发布
                 </router-link>

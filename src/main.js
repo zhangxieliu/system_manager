@@ -5,9 +5,16 @@ import App from './App'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
+// import AMap from 'vue-amap';
+
 import 'element-ui/lib/theme-default/index.css'
 
 Vue.use(ElementUI)
+// Vue.use(AMap)
+// AMap.initAMapApiLoader({
+//   key: 'af033935ad3dbc20bc7e4e7a296d8421',
+//   plugin: ['ToolBar']
+// });
 
 Vue.config.productionTip = false
 

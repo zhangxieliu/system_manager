@@ -5,7 +5,7 @@ import Login from '@/components/Login'
 import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
 import CompanyList from '@/components/company/CompanyList'
-import JobAdd from '@/components/company/JobAdd'
+import JobCreate from '@/components/job/JobCreate'
 import CompanyInfo from '@/components/company/CompanyInfo'
 
 Vue.use(Router)
@@ -39,9 +39,9 @@ export default new Router({
           component: CompanyList
         },
         {
-          path: '/company/job/add',
-          name: 'JobAdd',
-          component: JobAdd
+          path: '/job/create',
+          name: 'JobCreate',
+          component: JobCreate
         }
       ]
     },

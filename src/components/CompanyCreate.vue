@@ -287,7 +287,6 @@
         }
       },
       submitForm(formName) {
-        console.log(this.company.companyIndustry);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let Company = Bmob.Object.extend("Company");
