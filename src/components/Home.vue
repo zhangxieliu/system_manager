@@ -125,17 +125,17 @@
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- The user image in the navbar-->
-                <img src="../assets/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <img :src="user.get('avatar')._url" width="160" height="160" class="user-image" alt="User Image">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs">张协流</span>
+                <span class="hidden-xs">{{user.get('username')}}</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- The user image in the menu -->
                 <li class="user-header">
-                  <img src="../assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                  <img :src="user.get('avatar')._url" class="img-circle" alt="User Image">
 
                   <p>
-                    张协流 - 软件开发者
+                    {{user.get('username')}} - 软件开发者
                     <small>开发于2017-02-28</small>
                   </p>
                 </li>
@@ -160,7 +160,7 @@
                     <a href="#" class="btn btn-default btn-flat">关于我</a>
                   </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">注销登录</a>
+                    <a href="#" @click="logout" class="btn btn-default btn-flat">注销登录</a>
                   </div>
                 </li>
               </ul>
@@ -183,10 +183,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="../assets/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            <img :src="user.get('avatar')._url" width="160" height="160" class="user-image" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>张协流</p>
+            <p>{{user.get('username')}}</p>
             <!-- Status -->
             <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
           </div>
@@ -262,7 +262,7 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!--<transition name="slide-right">-->
-        <router-view></router-view>
+      <router-view></router-view>
       <!--</transition>-->
     </div>
     <!-- /.content-wrapper -->
@@ -271,7 +271,7 @@
     <footer class="main-footer">
       <!-- To the right -->
       <div class="pull-right hidden-xs">
-        联系我：zhagnxieliu@outlook.com
+        联系我：{{user.get('email')}}
       </div>
       <!-- Default to the left -->
       <strong>Copyright &copy; 2016 <a href="#">个人</a>.</strong>本网页使用AdminLTE开发.
@@ -362,6 +362,18 @@
   export default{
     data(){
       return {}
+    },
+    computed: {
+      user() {
+        return Bmob.User.current();
+      }
+    },
+    methods: {
+      logout() {
+        // 退出登录
+        this.$store.commit('USER_LOGOUT');
+        this.$router.push({name: 'Login'});
+      }
     }
   }
 </script>

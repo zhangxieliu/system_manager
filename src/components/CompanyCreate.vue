@@ -33,12 +33,12 @@
           </a>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName">
-          <el-col :span="10">
+          <el-col :xs="16" :sm="14" :md="12" :lg="10">
             <el-input v-model="company.companyName"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="公司地址" prop="companyCity">
-          <el-col :span="6">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="company.companyCity" placeholder="所在城市">
               <el-option-group
                 v-for="group in cityList"
@@ -55,18 +55,20 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司成立时间" prop="companyCreateDate" required>
-          <el-date-picker type="date"
-                          placeholder="选择日期"
-                          v-model="company.companyCreateDate">
-          </el-date-picker>
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
+            <el-date-picker type="date"
+                            placeholder="选择日期"
+                            v-model="company.companyCreateDate">
+            </el-date-picker>
+          </el-col>
         </el-form-item>
         <el-form-item label="公司网址" prop="companyWebsite">
-          <el-col :span="10">
+          <el-col :xs="16" :sm="14" :md="12" :lg="10">
             <el-input v-model="company.companyWebsite"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="公司类型" prop="companyType">
-          <el-col :span="10">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="company.companyType" placeholder="请选择公司类型">
               <el-option
                 v-for="item in companyTypeList"
@@ -78,7 +80,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司规模" prop="companyScale">
-          <el-col :span="10">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="company.companyScale" placeholder="请选择公司规模">
               <el-option
                 v-for="item in companyScaleList"
@@ -90,7 +92,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="公司行业" prop="companyIndustry">
-          <el-col :span="14">
+          <el-col :xs="24" :sm="20" :md="18" :lg="15">
             <el-checkbox-group v-model="company.companyIndustry">
               <el-checkbox
                 v-for="item in companyIndustryList"

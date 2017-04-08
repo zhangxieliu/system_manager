@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from '@/view/Login'
 import Home from '@/components/Home'
-import Login from '@/components/Login'
 import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
 import CompanyList from '@/components/company/CompanyList'
@@ -17,6 +17,7 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '/job/list',

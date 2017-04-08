@@ -14,6 +14,7 @@
     </section>
 
     <!-- Main content
+
      这里放页面的主要内容-->
     <section class="content animated fadeInUp">
       <el-form
@@ -23,12 +24,12 @@
         ref="job"
         label-width="120px">
         <el-form-item label="职位名称" prop="jobName">
-          <el-col :span="10">
+          <el-col :xs="16" :sm="14" :md="12" :lg="10">
             <el-input v-model="job.jobName"></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="职位薪酬" prop="jobSalary">
-          <el-col :span="10">
+          <el-col :xs="15" :sm="13" :md="11" :lg="9">
             <el-slider
               v-model="job.jobSalary"
               range
@@ -36,14 +37,14 @@
               :max="30">
             </el-slider>
           </el-col>
-          <el-col :span="4">
+          <el-col :xs="6" :sm="5" :md="5" :lg="4">
             <el-tag type="primary">{{job.jobSalary[0]}}K</el-tag>
             ~
             <el-tag type="danger">{{job.jobSalary[1]}}K</el-tag>
           </el-col>
         </el-form-item>
         <el-form-item label="职位学历" prop="jobEducation">
-          <el-col :span="5">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="job.jobEducation" placeholder="请选择职位学历">
               <el-option
                 v-for="item in jobEducations"
@@ -55,7 +56,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="职位类型" prop="jobType">
-          <el-col :span="5">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="job.jobType" placeholder="请选择职位类型">
               <el-option
                 v-for="item in jobTypes"
@@ -67,7 +68,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="职位经验" prop="jobExperience">
-          <el-col :span="5">
+          <el-col :xs="11" :sm="9" :md="7" :lg="5">
             <el-select v-model="job.jobExperience" placeholder="请选择职位经验">
               <el-option
                 v-for="item in jobExperiences"
@@ -79,7 +80,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="职位福利" prop="jobBenefits">
-          <el-col :span="10">
+          <el-col :xs="16" :sm="14" :md="12" :lg="10">
             <el-input v-model="job.jobBenefits"></el-input>
           </el-col>
         </el-form-item>
@@ -156,14 +157,38 @@
       // 普通的自定义菜单
       editor.config.menus = [
         'source',
-        '|',     // '|' 是菜单组的分割线
+        '|',
         'bold',
         'underline',
         'italic',
         'strikethrough',
         'eraser',
         'forecolor',
-        'bgcolor'
+        'bgcolor',
+        '|',
+        'quote',
+        'fontfamily',
+        'fontsize',
+        'head',
+        'unorderlist',
+        'orderlist',
+        'alignleft',
+        'aligncenter',
+        'alignright',
+        '|',
+        'link',
+        'unlink',
+        'table',
+        'emotion',
+        '|',
+        'img',
+        'video',
+        'location',
+        'insertcode',
+        '|',
+        'undo',
+        'redo'
+//        'fullscreen'
       ];
       editor.onchange = () => {
         // onchange 事件中更新数据
@@ -280,7 +305,7 @@
         jobEducations: [],
         jobExperiences: [],
         jobTypes: []
-      }
+      };
     },
     computed: {},
     created() {
