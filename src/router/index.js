@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/view/Login'
+import Resume from '@/view/user/Resume'
 import Home from '@/components/Home'
 import JobList from '@/components/JobList'
 import CompanyCreate from '@/components/CompanyCreate'
@@ -43,6 +44,11 @@ export default new Router({
           path: '/job/create',
           name: 'JobCreate',
           component: JobCreate
+        },
+        {
+          path: '/user/resume',
+          name: 'Resume',
+          component: Resume
         }
       ]
     },

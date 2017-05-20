@@ -29,7 +29,7 @@
           </div>
           <a href="javascript:;" class="upload">
             <span>上传<i class="el-icon-upload el-icon--right"></i></span>
-            <input type="file" accept="image/png,image/gif" id="fileUpload" @change="changeLogo">
+            <input type="file" accept="image/png,image/gif,image/jpeg" id="fileUpload" @change="changeLogo">
           </a>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName">
