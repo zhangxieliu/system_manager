@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
-import 'normalize.css';
 
 import 'element-ui/lib/theme-default/index.css'
 

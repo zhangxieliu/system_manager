@@ -209,12 +209,17 @@
           <li class="header">分类菜单</li>
           <!-- Optionally, you can add icons to the links -->
           <li class="active">
-            <router-link :to="{ name: 'JobList'}">
+            <router-link :to="{ name: 'Resume'}">
               <i class="fa fa-home"></i>
-              <span>职位列表</span>
+              <span>个人简历</span>
             </router-link>
           </li>
-          <li><a href="#"><i class="fa fa-calendar"></i> <span>公司列表</span></a></li>
+          <li>
+            <router-link :to="{ name: 'CompanyList'}">
+              <i class="fa fa-info-circle"></i>
+              公司列表
+            </router-link>
+          </li>
           <li class="treeview">
             <a href="#"><i class="fa fa-table"></i> <span>职位管理</span>
               <span class="pull-right-container">
@@ -354,10 +359,6 @@
     <div class="control-sidebar-bg"></div>
   </div>
 </template>
-<style>
-  body {
-  }
-</style>
 <script>
   export default{
     data(){

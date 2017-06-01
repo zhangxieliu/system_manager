@@ -15,17 +15,19 @@
     <!-- Main content
      这里放页面的主要内容-->
     <section class="content animated fadeInUp">
-      <el-col :span="10" :push="14">
-        <el-input placeholder="请输入所搜内容" v-model="searchContent">
-          <el-select v-model="select"
-                     slot="prepend"
-                     placeholder="请选择">
-            <el-option label="公司名称" value="公司名称"></el-option>
-            <el-option label="公司编号" value="公司编号"></el-option>
-          </el-select>
-          <el-button slot="append" @click="handleSearch" type="primary" icon="search"></el-button>
-        </el-input>
-      </el-col>
+      <el-row type="flex" justify="end">
+        <el-col :span="8">
+          <el-input placeholder="请输入所搜内容" v-model="searchContent">
+            <el-select v-model="select"
+                       slot="prepend"
+                       placeholder="请选择">
+              <el-option label="公司名称" value="公司名称"></el-option>
+              <el-option label="公司编号" value="公司编号"></el-option>
+            </el-select>
+            <el-button slot="append" @click="handleSearch" type="primary" icon="search"></el-button>
+          </el-input>
+        </el-col>
+      </el-row>
       <el-table
         :data="companies"
         border
@@ -33,16 +35,17 @@
         <el-table-column
           label="申请日期"
           align="center"
+          min-width="90"
           :show-overflow-tooltip="true"
-          :formatter="formatData"
           sortable>
           <template scope="scope">
             <el-icon name="time"></el-icon>
-            <span style="margin-left: 10px">{{ scope.row.date}}</span>
+            <span style="margin-left: 10px">{{ scope.row.date|formatDate}}</span>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
+          min-width="120"
           :show-overflow-tooltip="true"
           label="公司名称">
           <template scope="scope">
@@ -63,6 +66,7 @@
         <el-table-column
           label="公司类型"
           sortable
+          min-width="80"
           :show-overflow-tooltip="true"
           align="center"
           prop="companyType">
@@ -70,6 +74,7 @@
         <el-table-column
           label="公司规模"
           sortable
+          min-width="85"
           :show-overflow-tooltip="true"
           align="center"
           prop="companyScale">
@@ -128,7 +133,7 @@
   }
 
   .el-select .el-input {
-    width: 110px;
+    width: 110px !important;
   }
 
   .search-panel {
@@ -136,11 +141,13 @@
   }
 </style>
 <script>
+  import ElRow from "element-ui/packages/row/src/row";
+  import ElCol from "element-ui/packages/col/src/col";
   export default {
-    data() {
+    components: {ElCol, ElRow}, data() {
       return {
         loading: false,
-        limitSize: 2,
+        limitSize: 4,
         currentPage: 1,
         totalSize: 0,
         companies: [],
@@ -155,6 +162,16 @@
       query.include('companyScale');
       query.limit(this.limitSize);
       this.handleQuery(query);
+    },
+    filters: {
+      formatDate: (value) => {
+        if (!value) {
+          return '';
+        } else {
+          let date = new Date(value);
+          return date.getFullYear() + "." + ("0" + (date.getMonth() + 1)).slice(-2) + "." + ("0" + date.getDate()).slice(-2);
+        }
+      }
     },
     methods: {
       handleDetails(index, row) {
@@ -174,6 +191,8 @@
       handleLoadData() {
         let Company = Bmob.Object.extend("Company");
         let query = new Bmob.Query(Company);
+        query.include('companyType');
+        query.include('companyScale');
         query.skip((this.currentPage - 1) * this.limitSize);
         query.limit(this.limitSize);
         query.descending("createdAt");
